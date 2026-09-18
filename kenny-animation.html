@@ -1,134 +1,325 @@
 <!doctype html>
 <html lang="zh-Hant">
-<head>
-<script id="kenny-embedded-assets">
-window.__KENNY_HTML_ASSETS={"intro-curtains.png":"assets/images/intro-curtains.webp","intro-gallery.jpg":"assets/images/intro-gallery.webp","intro-idle.webp":"assets/images/intro-idle.webp","intro-kenny.png":"assets/images/intro-kenny.webp","kenny-depth-walk.png":"assets/images/kenny-depth-walk.webp"};
-for (const [name, url] of Object.entries(window.__KENNY_HTML_ASSETS)) {
-  document.documentElement.style.setProperty('--kenny-file-' + name.replace(/[^a-zA-Z0-9-]/g, '-'), 'url("' + url + '")');
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="theme-color" content="#090b11">
+    <meta name="description" content="捲動滑鼠，跟著 Kenny 走進創作展館。向下前進，向上倒回，停下即定格。">
+    <title>Kenny — 走進創作的世界</title>
+    <link rel="preload" href="assets/images/intro-idle.webp" fetchpriority="high" as="image">
+    <style>
+/* 01. Theme and base */
+:root {
+  color-scheme: dark;
+  --ink: #f5e9da;
+  --quiet: #d6c7b7;
+  --gold: #e6be86;
+  --scroll-span: 620svh;
+  background: #090b11;
+  color: var(--ink);
+  font-family: Arial,'PingFang TC','Microsoft JhengHei',sans-serif;
 }
-</script>
-  <link rel="preload" as="image" href="assets/images/intro-gallery.webp" fetchpriority="high">
-  <link rel="preload" as="image" href="assets/images/intro-curtains.webp">
-  <link rel="preload" as="image" href="assets/images/intro-kenny.webp">
-  <link rel="preload" as="image" href="assets/images/kenny-depth-walk.webp">
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#090b11">
-  <meta name="description" content="捲動滑鼠，跟著 Kenny 走進創作展館。向下前進，向上倒回，停下即定格。">
-  <title>Kenny — 走進創作的世界</title>
-  <style data-source="scroll.css">
-:root{color-scheme:dark;--ink:#f5e9da;--quiet:#d6c7b7;--gold:#e6be86;--scroll-span:620svh;background:#090b11;color:var(--ink);font-family:Arial,'PingFang TC','Microsoft JhengHei',sans-serif}
-*{box-sizing:border-box}
-html{scroll-behavior:auto;overscroll-behavior-y:none;scrollbar-color:#9a7959 #090b11;scrollbar-width:thin}
-body{margin:0;font-size:16px;line-height:1.6}
-button,a{-webkit-tap-highlight-color:transparent}
-a{color:inherit;text-decoration:none}
-button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
-a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:7px}
-p{margin:0}
-[hidden]{display:none!important}
-#scroll-track{height:calc(100svh + var(--scroll-span))}
-.scene-stage{height:100svh;position:sticky;top:0;overflow:hidden;isolation:isolate;background:#090b11 var(--kenny-file-intro-idle-webp) center/cover}
-#scroll-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0}
-.scene-ready #scroll-canvas{opacity:1}
-.scene-vignette{position:absolute;inset:0;pointer-events:none;background:linear-gradient(#0006,transparent 18%,transparent 80%,#0007);z-index:1}
-.scene-header{position:absolute;inset:30px 3.4vw auto;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:24px}
-.signature{font:42px/1 Georgia,serif;letter-spacing:-2px}
-.signature span{display:block;font:12px/1.5 Arial,sans-serif;letter-spacing:.16em;margin-top:8px}
-.portfolio-link{font-size:14px;display:inline-flex;align-items:center;gap:25px;min-height:44px;text-shadow:0 1px 10px #000}
-.portfolio-link span{font-size:23px}
-.scroll-intro{position:absolute;z-index:2;left:7.8%;top:43%;max-width:35%;text-shadow:0 2px 18px #000;pointer-events:none;opacity:var(--intro-opacity,1);transform:translateY(var(--intro-y,0px))}
-.scroll-intro p{font-family:'Songti TC','PMingLiU',serif;font-size:clamp(26px,2.4vw,44px);font-weight:400;letter-spacing:.05em}
-.intro-en{display:block;font:italic 18px/1.8 Georgia,serif;color:var(--quiet);margin-top:10px}
-.scene-footer{position:absolute;z-index:2;inset:auto 3.4vw max(25px,env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:space-between;gap:40px}
-.scroll-guide{display:flex;align-items:center;gap:16px;min-width:240px;text-shadow:0 1px 8px #000}
-.guide-direction{font-size:27px;color:var(--gold)}
-.scroll-guide p{font-size:14px;letter-spacing:.03em}
-#scroll-status{font-size:12px;color:var(--quiet)}
-.progress-group{display:flex;align-items:center;gap:18px;width:min(23vw,320px)}
-.progress-track{height:2px;flex:1;background:#f4e6d840;overflow:hidden}
-.progress-track>span{display:block;height:100%;background:var(--gold);transform:scaleX(0);transform-origin:left}
-#progress-number{font:13px/1.5 Arial,sans-serif;letter-spacing:.08em;min-width:4ch;font-variant-numeric:tabular-nums;text-align:right}
-#reset-scene{font-size:14px;min-height:44px;display:flex;align-items:center;gap:24px;text-shadow:0 1px 8px #000;border-bottom:1px solid #e6be8670}
-#reset-scene span{font-size:23px;color:var(--gold)}
-.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
-.no-script{position:fixed;inset:auto 20px 110px;padding:18px;background:#090b11;z-index:5;font-size:16px}
-.no-script a{text-decoration:underline;margin-left:14px}
-@media(max-width:760px){
- :root{--scroll-span:520svh}
- .scene-header{inset:max(22px,env(safe-area-inset-top)) 6vw auto;gap:16px}
- .signature{font-size:35px}
- .signature span{font-size:12px;letter-spacing:.08em}
- .portfolio-link{font-size:14px;gap:10px}
- .scroll-intro{top:22%;left:7%;right:7%;max-width:none;text-align:center}
- .scroll-intro p{font-size:26px}
- .intro-en{font-size:16px;margin-top:4px}
- .scene-footer{inset:auto 6vw max(22px,env(safe-area-inset-bottom));gap:12px;flex-wrap:wrap}
- .scroll-guide{min-width:0;gap:10px;flex:1}
- .scroll-guide p{font-size:14px}
- #reset-scene{font-size:14px;gap:13px}
- .progress-group{width:100%;order:3;gap:15px}
- .scene-vignette{background:linear-gradient(#0007,transparent 21%,transparent 78%,#0009)}
-}
-@media(max-height:530px) and (min-width:761px){
- .scene-header{inset:17px 3.4vw auto}
- .signature{font-size:30px}
- .signature span{display:none}
- .scene-footer{bottom:14px}
- .scroll-intro p{font-size:27px}
-}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-@media(max-aspect-ratio:23/20){.scene-stage{background-position:calc(50% - 20.220588svh) center}}
+* { box-sizing: border-box; }
+html { scroll-behavior: auto; overscroll-behavior-y: none; scrollbar-color: #9a7959 #090b11; scrollbar-width: thin; }
+body { margin: 0; font-size: 16px; line-height: 1.6; }
+button,a { -webkit-tap-highlight-color: transparent; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+a:focus-visible,button:focus-visible { outline: 2px solid var(--gold); outline-offset: 7px; }
+p { margin: 0; }
+[hidden] { display: none!important; }
 
+/* 02. Canvas scene */
+#scroll-track { height: calc(100svh + var(--scroll-span)); }
+.scene-stage {
+  height: 100svh;
+  position: sticky;
+  top: 0;
+  overflow: hidden;
+  isolation: isolate;
+  background: #090b11 url("assets/images/intro-idle.webp") center/cover;
+}
+#scroll-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; }
+.scene-ready #scroll-canvas { opacity: 1; }
+.scene-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(#0006,transparent 18%,transparent 80%,#0007);
+  z-index: 1;
+}
+
+/* 03. Header and introduction */
+.scene-header {
+  position: absolute;
+  inset: 30px 3.4vw auto;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.signature { font: 42px/1 Georgia,serif; letter-spacing: -2px; }
+.signature span { display: block; font: 12px/1.5 Arial,sans-serif; letter-spacing: .16em; margin-top: 8px; }
+.portfolio-link { font-size: 14px; display: inline-flex; align-items: center; gap: 25px; min-height: 44px; text-shadow: 0 1px 10px #000; }
+.portfolio-link span { font-size: 23px; }
+.scroll-intro {
+  position: absolute;
+  z-index: 2;
+  left: 7.8%;
+  top: 43%;
+  max-width: 35%;
+  text-shadow: 0 2px 18px #000;
+  pointer-events: none;
+  opacity: var(--intro-opacity,1);
+  transform: translateY(var(--intro-y,0px));
+}
+.scroll-intro p { font-family: 'Songti TC','PMingLiU',serif; font-size: clamp(26px,2.4vw,44px); font-weight: 400; letter-spacing: .05em; }
+.intro-en { display: block; font: italic 18px/1.8 Georgia,serif; color: var(--quiet); margin-top: 10px; }
+
+/* 04. Scroll controls */
+.scene-footer {
+  position: absolute;
+  z-index: 2;
+  inset: auto 3.4vw max(25px,env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+.scroll-guide { display: flex; align-items: center; gap: 16px; min-width: 240px; text-shadow: 0 1px 8px #000; }
+.guide-direction { font-size: 27px; color: var(--gold); }
+.scroll-guide p { font-size: 14px; letter-spacing: .03em; }
+#scroll-status { font-size: 12px; color: var(--quiet); }
+.progress-group { display: flex; align-items: center; gap: 18px; width: min(23vw,320px); }
+.progress-track { height: 2px; flex: 1; background: #f4e6d840; overflow: hidden; }
+.progress-track>span { display: block; height: 100%; background: var(--gold); transform: scaleX(0); transform-origin: left; }
+#progress-number {
+  font: 13px/1.5 Arial,sans-serif;
+  letter-spacing: .08em;
+  min-width: 4ch;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+#reset-scene {
+  font-size: 14px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  text-shadow: 0 1px 8px #000;
+  border-bottom: 1px solid #e6be8670;
+}
+#reset-scene span { font-size: 23px; color: var(--gold); }
+
+/* 05. Accessibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.no-script { position: fixed; inset: auto 20px 110px; padding: 18px; background: #090b11; z-index: 5; font-size: 16px; }
+.no-script a { text-decoration: underline; margin-left: 14px; }
+
+/* 06. Responsive layout */
+@media(max-width:760px) {
+  :root { --scroll-span: 520svh; }
+  .scene-header { inset: max(22px,env(safe-area-inset-top)) 6vw auto; gap: 16px; }
+  .signature { font-size: 35px; }
+  .signature span { letter-spacing: .08em; }
+  .portfolio-link { gap: 10px; }
+  .scroll-intro { top: 22%; left: 7%; right: 7%; max-width: none; text-align: center; }
+  .scroll-intro p { font-size: 26px; }
+  .intro-en { font-size: 16px; margin-top: 4px; }
+  .scene-footer { inset: auto 6vw max(22px,env(safe-area-inset-bottom)); gap: 12px; flex-wrap: wrap; }
+  .scroll-guide { min-width: 0; gap: 10px; flex: 1; }
+  #reset-scene { gap: 13px; }
+  .progress-group { width: 100%; order: 3; gap: 15px; }
+  .scene-vignette { background: linear-gradient(#0007,transparent 21%,transparent 78%,#0009); }
+}
+@media(max-height:530px) and (min-width:761px) {
+  .scene-header { inset: 17px 3.4vw auto; }
+  .signature { font-size: 30px; }
+  .signature span { display: none; }
+  .scene-footer { bottom: 14px; }
+  .scroll-intro p { font-size: 27px; }
+}
+@media(max-aspect-ratio:23/20) {
+  .scene-stage{background-position:calc(50% - 20.220588svh) center}
+}
 </style>
-  
-  
-  
-</head>
-<body>
-  <main id="scroll-track" aria-label="由捲動控制的 Kenny 展館動畫">
-    <section class="scene-stage" aria-label="展館開場">
-      <canvas id="scroll-canvas" width="1920" height="1088" role="img" aria-label="Kenny 穿著黑色韓式西裝，在紅色布幕前邀請你走入發光的藝廊。捲動頁面控制人物轉身、步行與鏡頭。"></canvas>
-      <div class="scene-vignette" aria-hidden="true"></div>
-      <header class="scene-header">
-        <a href="kenny-portfolio.html" class="signature" aria-label="回到 Kenny 作品集">kenny<span>THE CREATIVE WORLD</span></a>
-        <a class="portfolio-link" href="kenny-portfolio.html">返回作品集 <span aria-hidden="true">↗</span></a>
-      </header>
-      <div class="scroll-intro" id="scroll-intro">
-        <p>向下捲動，跟我走。</p>
-        <span class="intro-en">A world shaped by your scroll.</span>
-      </div>
-      <footer class="scene-footer">
-        <div class="scroll-guide">
-          <span class="guide-direction" aria-hidden="true">↕</span>
-          <div><p id="scroll-hint">向下前進 · 向上倒回</p><span id="scroll-status">準備畫面中…</span></div>
+  </head>
+  <body>
+    <main id="scroll-track" aria-label="由捲動控制的 Kenny 展館動畫">
+      <section class="scene-stage" aria-label="展館開場">
+        <canvas id="scroll-canvas" width="1920" height="1088" role="img" aria-label="Kenny 穿著黑色韓式西裝，在紅色布幕前邀請你走入發光的藝廊。捲動頁面控制人物轉身、步行與鏡頭。"></canvas>
+        <div class="scene-vignette" aria-hidden="true"></div>
+        <header class="scene-header">
+          <a href="kenny-portfolio.html" class="signature" aria-label="回到 Kenny 作品集">kenny<span>THE CREATIVE WORLD</span></a>
+          <a class="portfolio-link" href="kenny-portfolio.html">返回作品集 <span aria-hidden="true">↗</span></a>
+        </header>
+        <div class="scroll-intro" id="scroll-intro">
+          <p>向下捲動，跟我走。</p>
+          <span class="intro-en">A world shaped by your scroll.</span>
         </div>
-        <div class="progress-group">
-          <div id="scene-progress" class="progress-track" role="progressbar" aria-label="動畫進度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="progress-fill"></span></div>
-          <output id="progress-number" aria-hidden="true">0%</output>
-        </div>
-        <button type="button" id="reset-scene">回到起點 <span aria-hidden="true">↶</span></button>
-      </footer>
-      <p id="load-message" class="sr-only" role="status"></p>
-    </section>
-  </main>
-  <noscript><p class="no-script">請啟用 JavaScript 以使用捲動動畫。<a href="kenny-portfolio.html">返回作品集</a></p></noscript>
-  <script data-source="embedded-images">
-for (const image of document.querySelectorAll('[data-embedded-src]')) { image.src = window.__KENNY_HTML_ASSETS[image.dataset.embeddedSrc]; }
-</script>
-<script data-source="scene-engine.js">
-/* Shared gallery renderer. Every visual state is determined by its input progress. */
+        <footer class="scene-footer">
+          <div class="scroll-guide">
+            <span class="guide-direction" aria-hidden="true">↕</span>
+            <div>
+              <p id="scroll-hint">向下前進 · 向上倒回</p>
+              <span id="scroll-status">準備畫面中…</span>
+            </div>
+          </div>
+          <div class="progress-group">
+            <div id="scene-progress" class="progress-track" role="progressbar" aria-label="動畫進度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <span id="progress-fill"></span>
+            </div>
+            <output id="progress-number" aria-hidden="true">0%</output>
+          </div>
+          <button type="button" id="reset-scene">回到起點 <span aria-hidden="true">↶</span></button>
+        </footer>
+        <p id="load-message" class="sr-only" role="status"></p>
+      </section>
+    </main>
+    <noscript><p class="no-script">請啟用 JavaScript 以使用捲動動畫。<a href="kenny-portfolio.html">返回作品集</a></p></noscript>
+    <script>
+/* Kenny animation — scroll position is the only playback input. */
 (() => {
   'use strict';
-  const DURATION = 10.041667;
-  const clamp = (n, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, n));
-  const mix = (a, b, t) => a + (b - a) * t;
-  const smooth = t => { t = clamp(t); return t * t * (3 - 2 * t); };
-  function create({ scrollDriven = false } = {}) {
+
+  const INTRO_END = 8.5;
+  const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+  const mix = (a, b, progress) => a + (b - a) * progress;
+  const smooth = value => { const t = clamp(value); return t * t * (3 - 2 * t); };
+  const $ = id => document.getElementById(id);
+  const stage = document.querySelector('.scene-stage');
+  const track = $('scroll-track');
+  const canvas = $('scroll-canvas');
+  const status = $('scroll-status');
+  const message = $('load-message');
+  const progressBar = $('scene-progress');
+  const fill = $('progress-fill');
+  const output = $('progress-number');
+  const context = canvas.getContext('2d', { alpha: false });
+
+  if (matchMedia('(pointer:coarse)').matches) {
+    $('scroll-hint').textContent = '上下滑動，控制動畫';
+  }
+  if (!context) {
+    status.textContent = '此瀏覽器無法顯示動畫';
+    message.textContent = '此瀏覽器無法顯示動畫，請使用支援 Canvas 的瀏覽器。';
+    return;
+  }
+
+  const scene = createScene();
+  let ready = false, request = 0, needsMeasure = true;
+  let width = 1, height = 1, pixelRatio = 1, scrollSpan = 1, trackTop = 0;
+  let lastProgress = -1, lastPercent = -1, lastArrival = null;
+
+  // Resize the drawing buffer only when its dimensions actually change.
+  function measure() {
+    needsMeasure = false;
+    const rect = stage.getBoundingClientRect();
+    width = Math.max(1, rect.width);
+    height = Math.max(1, rect.height);
+    const ratio = Math.min(devicePixelRatio || 1, width <= 760 ? 2 : 1.5);
+    const bufferWidth = Math.round(width * ratio);
+    const bufferHeight = Math.round(height * ratio);
+    if (canvas.width !== bufferWidth || canvas.height !== bufferHeight) {
+      canvas.width = bufferWidth;
+      canvas.height = bufferHeight;
+    }
+    pixelRatio = ratio;
+    trackTop = track.getBoundingClientRect().top + scrollY;
+    scrollSpan = Math.max(1, track.offsetHeight - stage.offsetHeight);
+    lastProgress = -1;
+  }
+
+  function fail(shortText, accessibleText) {
+    ready = false;
+    cancelAnimationFrame(request);
+    request = 0;
+    document.body.classList.remove('scene-ready');
+    status.textContent = shortText;
+    message.textContent = accessibleText;
+  }
+
+  function render() {
+    request = 0;
+    if (!ready || document.hidden) return;
+    if (needsMeasure) measure();
+    const progress = clamp((scrollY - trackTop) / scrollSpan);
+    if (progress === lastProgress) return;
+    context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    try {
+      scene.render(context, width, height, progress * INTRO_END);
+    } catch {
+      fail('畫面暫時無法顯示，請重新整理', '動畫暫時無法顯示，可重新整理頁面或返回作品集。');
+      return;
+    }
+    lastProgress = progress;
+    document.body.classList.add('scene-ready');
+    fill.style.transform = `scaleX(${progress})`;
+    stage.style.setProperty('--intro-opacity', String(1 - clamp(progress / 0.08)));
+    stage.style.setProperty('--intro-y', `${-progress * 40}px`);
+
+    const percent = Math.round(progress * 100);
+    if (percent !== lastPercent) {
+      lastPercent = percent;
+      output.textContent = `${percent}%`;
+      progressBar.setAttribute('aria-valuenow', String(percent));
+    }
+    // Arrival can change even while the rounded percentage stays at 100%.
+    const arrived = progress >= 0.999;
+    if (arrived !== lastArrival) {
+      lastArrival = arrived;
+      status.textContent = arrived ? '已抵達展館 · 向上捲動可倒回' : '停止捲動，畫面即停留';
+    }
+  }
+
+  function schedule() {
+    if (!request && ready && !document.hidden) request = requestAnimationFrame(render);
+  }
+  function invalidateLayout() {
+    needsMeasure = true;
+    schedule();
+  }
+
+  addEventListener('scroll', schedule, { passive: true });
+  addEventListener('resize', invalidateLayout, { passive: true });
+  addEventListener('pageshow', invalidateLayout);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { cancelAnimationFrame(request); request = 0; }
+    else invalidateLayout();
+  });
+  $('reset-scene').addEventListener('click', () => {
+    if (needsMeasure) measure();
+    scrollTo({ top: trackTop, behavior: 'instant' });
+    schedule();
+  });
+
+  // Preserve the original entry behavior: each visit begins at the first frame.
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  scrollTo({ top: 0, behavior: 'instant' });
+  scene.load().then(() => {
+    ready = true;
+    message.textContent = '動畫已準備完成。捲動可前進或倒回，停止捲動時畫面停留。';
+    invalidateLayout();
+  }).catch(() => {
+    fail('畫面載入失敗，請重新整理', '動畫素材暫時無法載入，請重新整理頁面。');
+  });
+
+  // Canvas renderer: every pose is a pure function of scroll progress.
+  function createScene() {
     let plates = null;
     let sprites = [];
-  function poseAt(t) {
-    if (scrollDriven) {
+    function poseAt(t) {
       if (t < .18) return 0;
       if (t < .6) return 1;
       if (t < .94) return 2;
@@ -136,383 +327,272 @@ for (const image of document.querySelectorAll('[data-embedded-src]')) { image.sr
       if (t < 5.5) return [8, 10, 11, 13][Math.floor((t - 1.3) / .21) % 4];
       return 6 + (Math.floor((t - 5.5) / .25) % 2);
     }
-    if (t < 1.3) return 0;
-    if (t < 1.8) return 1;
-    if (t < 2.2) return 2;
-    if (t < 2.65) return 3;
-    if (t < 5.5) return [8, 10, 11, 13][Math.floor((t - 2.65) / .18) % 4];
-    return 6 + (Math.floor((t - 5.5) / .25) % 2);
-  }
-
-  function sample(t) {
-    t = clamp(t, 0, DURATION);
-    const move = smooth(scrollDriven ? t / 8.2 : (t - 1.7) / 6.5);
-    const exit = smooth((t - 4.7) / 3.3);
-    const walkStart = scrollDriven ? 1.3 : 2.4;
-    const walking = t > walkStart && t < 8.2;
-    const stride = walking ? Math.sin((t - walkStart) * Math.PI * 4) : 0;
-    const walkDepth = smooth((t - walkStart) / (5.5 - walkStart));
-    return {
-      t,
-      camera: move,
-      curtain: smooth(scrollDriven ? t / 6.5 : (t - .6) / 5.9),
-      pose: poseAt(t),
-      actorX: mix(1240, 1340, walkDepth) + exit * 815,
-      actorY: 970 - walkDepth * 83 + exit * 63 - Math.abs(stride) * 1.3,
-      actorH: (520 - walkDepth * 110) * (1 + move * .08),
-      sway: walking ? stride * .002 : 0,
-      actorOpacity: 1 - smooth((t - 7.7) / .55),
-      reveal: smooth((t - 9) / 1.04)
-    };
-  }
-
-  function drawSprite(context, index, x, foot, size, alpha = 1, rotation = 0, reflected = false) {
-    const sprite = sprites[index];
-    const scale = size / sprite.image.height;
-    context.save();
-    context.globalAlpha = alpha;
-    context.translate(x, foot);
-    context.rotate(rotation);
-    if (reflected) context.scale(1, -.36);
-    context.drawImage(reflected ? sprite.reflection : sprite.image,
-      -sprite.anchorX * scale, -size, sprite.image.width * scale, size);
-    context.restore();
-  }
-
-  function renderScene(context, w, h, t, journeyDepth = 0, cursor = { x: 0, y: 0 }) {
-    const s = sample(t);
-    context.save();
-    context.fillStyle = '#070a10';
-    context.fillRect(0, 0, w, h);
-    const scale = Math.max(w / 1920, h / 1088);
-    const visibleWidth = w / scale;
-    // Portrait framing follows the guide; desktop retains the reference's full composition.
-    const portrait = w / h < 1.15;
-    const portraitCenter = scrollDriven
-      ? mix(clamp(s.actorX - 60, 1000, 1560), 1040, smooth((t - 6.9) / 1.6))
-      : mix(1190, 1040, smooth((t - 5) / 4));
-    const center = portrait ? portraitCenter : 960;
-    const crop = clamp(center - visibleWidth / 2, 0, Math.max(0, 1920 - visibleWidth));
-    context.translate((w - visibleWidth * scale) / 2 - crop * scale, (h - 1088 * scale) / 2);
-    context.scale(scale, scale);
-    const zoom = 1 + journeyDepth * .075;
-    const px = s.reveal * cursor.x * 12;
-    const py = s.reveal * cursor.y * 6;
-    context.translate(960 + px, 620 + py);
-    context.scale(zoom, zoom);
-    context.translate(-960, -620);
-
-    const bgScale = mix(.82, 1, s.camera);
-    const bgX = mix(385, 0, s.camera), bgY = mix(127, 0, s.camera);
-    // Mirror narrow camera overscan to preserve texture instead of stretching a pixel.
-    const bgW = 1920 * bgScale, bgH = 1088 * bgScale;
-    const imageW = plates.gallery.width, imageH = plates.gallery.height;
-    context.drawImage(plates.gallery, 0, 0, imageW, 1, bgX, 0, bgW, bgY + 1);
-    if (bgX > 0) {
+  
+    function sample(t) {
+      t = clamp(t, 0, INTRO_END);
+      const move = smooth(t / 8.2);
+      const exit = smooth((t - 4.7) / 3.3);
+      const walkStart = 1.3;
+      const walking = t > walkStart && t < 8.2;
+      const stride = walking ? Math.sin((t - walkStart) * Math.PI * 4) : 0;
+      const walkDepth = smooth((t - walkStart) / (5.5 - walkStart));
+      return {
+        camera: move,
+        curtain: smooth(t / 6.5),
+        pose: poseAt(t),
+        actorX: mix(1240, 1340, walkDepth) + exit * 815,
+        actorY: 970 - walkDepth * 83 + exit * 63 - Math.abs(stride) * 1.3,
+        actorH: (520 - walkDepth * 110) * (1 + move * .08),
+        sway: walking ? stride * .002 : 0,
+        actorOpacity: 1 - smooth((t - 7.7) / .55)
+      };
+    }
+  
+    function drawSprite(context, index, x, foot, size, alpha = 1, rotation = 0, reflected = false) {
+      const sprite = sprites[index];
+      const scale = size / sprite.image.height;
       context.save();
-      context.translate(bgX * 2, 0);
-      context.scale(-1, 1);
-      context.drawImage(plates.gallery, 0, 0, bgX / bgScale, 1, bgX, 0, bgX + 1, bgY + 1);
-      context.drawImage(plates.gallery, 0, 0, bgX / bgScale, imageH, bgX, bgY, bgX + 1, bgH);
+      context.globalAlpha = alpha;
+      context.translate(x, foot);
+      context.rotate(rotation);
+      if (reflected) context.scale(1, -.36);
+      context.drawImage(reflected ? sprite.reflection : sprite.image,
+        -sprite.anchorX * scale, -size, sprite.image.width * scale, size);
       context.restore();
     }
-    context.drawImage(plates.gallery, bgX, bgY, bgW, bgH);
-    const bgBottom = bgY + 1088 * bgScale;
-    if (bgBottom < 1088) {
-      const extension = 1089 - bgBottom;
-      const sourceExtension = extension / bgScale;
+  
+    function renderScene(context, w, h, t) {
+      const s = sample(t);
       context.save();
-      context.translate(0, bgBottom * 2);
-      context.scale(1, -1);
-      context.drawImage(plates.gallery, 0, imageH - sourceExtension, imageW, sourceExtension,
-        bgX, bgBottom - extension, bgW, extension + 1);
+      context.fillStyle = '#070a10';
+      context.fillRect(0, 0, w, h);
+      const scale = Math.max(w / 1920, h / 1088);
+      const visibleWidth = w / scale;
+      // Portrait framing follows the guide; desktop retains the reference's full composition.
+      const portrait = w / h < 1.15;
+      const portraitCenter = mix(clamp(s.actorX - 60, 1000, 1560), 1040, smooth((t - 6.9) / 1.6));
+      const center = portrait ? portraitCenter : 960;
+      const crop = clamp(center - visibleWidth / 2, 0, Math.max(0, 1920 - visibleWidth));
+      context.translate((w - visibleWidth * scale) / 2 - crop * scale, (h - 1088 * scale) / 2);
+      context.scale(scale, scale);
+      const bgScale = mix(.82, 1, s.camera);
+      const bgX = mix(385, 0, s.camera), bgY = mix(127, 0, s.camera);
+      // Mirror narrow camera overscan to preserve texture instead of stretching a pixel.
+      const bgW = 1920 * bgScale, bgH = 1088 * bgScale;
+      const imageW = plates.gallery.width, imageH = plates.gallery.height;
+      context.drawImage(plates.gallery, 0, 0, imageW, 1, bgX, 0, bgW, bgY + 1);
       if (bgX > 0) {
+        context.save();
         context.translate(bgX * 2, 0);
         context.scale(-1, 1);
-        context.drawImage(plates.gallery, 0, imageH - sourceExtension, bgX / bgScale, sourceExtension,
-          bgX, bgBottom - extension, bgX + 1, extension + 1);
+        context.drawImage(plates.gallery, 0, 0, bgX / bgScale, 1, bgX, 0, bgX + 1, bgY + 1);
+        context.drawImage(plates.gallery, 0, 0, bgX / bgScale, imageH, bgX, bgY, bgX + 1, bgH);
+        context.restore();
       }
-      context.restore();
-    }
-
-    if (s.actorOpacity > 0) {
-      const reflectionOpacity = .27 * s.actorOpacity;
-      context.save();
-      context.filter = 'blur(1.8px)';
-      drawSprite(context, s.pose, s.actorX, s.actorY + 1, s.actorH, reflectionOpacity, s.sway, true);
-      context.restore();
-      context.save();
-      context.globalAlpha = s.actorOpacity;
-      context.fillStyle = 'rgba(9,7,12,.31)';
-      context.filter = 'blur(10px)';
-      context.beginPath();
-      context.ellipse(s.actorX + 11, s.actorY + 5, s.actorH * .18, s.actorH * .025, .06, 0, Math.PI * 2);
-      context.fill();
-      context.restore();
-      const sprite = sprites[s.pose], footScale = s.actorH / sprite.image.height;
-      context.save();
-      context.globalAlpha = s.actorOpacity;
-      context.fillStyle = 'rgba(7,5,9,.68)';
-      context.filter = 'blur(2px)';
-      sprite.contacts.forEach(contact => {
+      context.drawImage(plates.gallery, bgX, bgY, bgW, bgH);
+      const bgBottom = bgY + 1088 * bgScale;
+      if (bgBottom < 1088) {
+        const extension = 1089 - bgBottom;
+        const sourceExtension = extension / bgScale;
+        context.save();
+        context.translate(0, bgBottom * 2);
+        context.scale(1, -1);
+        context.drawImage(plates.gallery, 0, imageH - sourceExtension, imageW, sourceExtension,
+          bgX, bgBottom - extension, bgW, extension + 1);
+        if (bgX > 0) {
+          context.translate(bgX * 2, 0);
+          context.scale(-1, 1);
+          context.drawImage(plates.gallery, 0, imageH - sourceExtension, bgX / bgScale, sourceExtension,
+            bgX, bgBottom - extension, bgX + 1, extension + 1);
+        }
+        context.restore();
+      }
+  
+      if (s.actorOpacity > 0) {
+        const reflectionOpacity = .27 * s.actorOpacity;
+        context.save();
+        context.filter = 'blur(1.8px)';
+        drawSprite(context, s.pose, s.actorX, s.actorY + 1, s.actorH, reflectionOpacity, s.sway, true);
+        context.restore();
+        context.save();
+        context.globalAlpha = s.actorOpacity;
+        context.fillStyle = 'rgba(9,7,12,.31)';
+        context.filter = 'blur(10px)';
         context.beginPath();
-        context.ellipse(s.actorX + (contact.x - sprite.anchorX) * footScale,
-          s.actorY + .5, Math.max(8, contact.width * footScale * .48), 3.3 * footScale, 0, 0, Math.PI * 2);
+        context.ellipse(s.actorX + 11, s.actorY + 5, s.actorH * .18, s.actorH * .025, .06, 0, Math.PI * 2);
         context.fill();
+        context.restore();
+        const sprite = sprites[s.pose], footScale = s.actorH / sprite.image.height;
+        context.save();
+        context.globalAlpha = s.actorOpacity;
+        context.fillStyle = 'rgba(7,5,9,.68)';
+        context.filter = 'blur(2px)';
+        sprite.contacts.forEach(contact => {
+          context.beginPath();
+          context.ellipse(s.actorX + (contact.x - sprite.anchorX) * footScale,
+            s.actorY + .5, Math.max(8, contact.width * footScale * .48), 3.3 * footScale, 0, 0, Math.PI * 2);
+          context.fill();
+        });
+        context.restore();
+        drawSprite(context, s.pose, s.actorX, s.actorY, s.actorH, s.actorOpacity, s.sway);
+      }
+  
+      if (s.curtain < 1) {
+        const image = plates.curtains;
+        const half = image.width / 2;
+        const curtainScale = 1 + s.curtain * .13;
+        context.save();
+        context.translate(960, 550);
+        context.scale(curtainScale, curtainScale);
+        context.translate(-960, -550);
+        context.drawImage(image, 0, 0, half, image.height,
+          -s.curtain * 1100, 0, 960, 1088);
+        context.drawImage(image, half, 0, half, image.height,
+          960 + s.curtain * 950, 0, 960, 1088);
+        context.restore();
+      }
+      context.restore();
+    }
+  
+    function load(url) {
+      return new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = () => reject(new Error(`Unable to load ${url}`));
+        image.decoding = 'async';
+        image.src = url;
       });
-      context.restore();
-      drawSprite(context, s.pose, s.actorX, s.actorY, s.actorH, s.actorOpacity, s.sway);
     }
-
-    if (s.curtain < 1) {
-      const image = plates.curtains;
-      const half = image.width / 2;
-      const curtainScale = 1 + s.curtain * .13;
-      context.save();
-      context.translate(960, 550);
-      context.scale(curtainScale, curtainScale);
-      context.translate(-960, -550);
-      context.drawImage(image, 0, 0, half, image.height,
-        -s.curtain * 1100, 0, 960, 1088);
-      context.drawImage(image, half, 0, half, image.height,
-        960 + s.curtain * 950, 0, 960, 1088);
-      context.restore();
-    }
-    context.restore();
-  }
-
-  function load(url) {
-    return new Promise((resolve, reject) => {
-      const image = new Image();
-      image.onload = () => resolve(image);
-      image.onerror = () => reject(new Error(`Unable to load ${url}`));
-      image.src = window.__KENNY_HTML_ASSETS[url.split('/').pop()];
-    });
-  }
-
-  // Runtime texture keying for RGB source sprites. Source artwork stays unchanged.
-  function keyedTexture(image, type) {
-    const texture = document.createElement('canvas');
-    texture.width = image.width; texture.height = image.height;
-    const c = texture.getContext('2d', { willReadFrequently: true });
-    c.drawImage(image, 0, 0);
-    const pixels = c.getImageData(0, 0, texture.width, texture.height);
-    for (let i = 0; i < pixels.data.length; i += 4) {
-      const r = pixels.data[i], g = pixels.data[i + 1], b = pixels.data[i + 2];
-      if (type === 'green') {
-        const green = g - Math.max(r, b);
-        if (green > 25 && g > 90) {
-          pixels.data[i + 3] *= 1 - clamp((green - 25) / 65);
-          pixels.data[i + 1] = Math.min(g, Math.max(r, b) + 12);
-        }
-      } else {
-        const min = Math.min(r, g, b), chroma = Math.max(r, g, b) - min;
-        const neutral = 1 - clamp((chroma - 8) / 16);
-        const light = clamp((min - 103) / 26);
-        pixels.data[i + 3] *= 1 - neutral * light;
-      }
-    }
-    c.putImageData(pixels, 0, 0);
-    return texture;
-  }
-
-  function actorBounds(image, columns = 4) {
-    const frame = document.createElement('canvas');
-    const cellW = image.width / columns;
-    const split = image.height * (columns === 4 ? .512 : .5);
-    frame.width = Math.ceil(cellW); frame.height = Math.ceil(Math.max(split, image.height - split));
-    const c = frame.getContext('2d', { willReadFrequently: true });
-    return Array.from({ length: columns * 2 }, (_, i) => {
-      const sx = (i % columns) * cellW, sy = i < columns ? 0 : split;
-      const cellH = i < columns ? split : image.height - split;
-      c.clearRect(0, 0, frame.width, frame.height);
-      c.drawImage(image, sx, sy, cellW, cellH, 0, 0, cellW, cellH);
-      const pixels = c.getImageData(0, 0, frame.width, frame.height).data;
-      let x0 = cellW, y0 = cellH, x1 = 0, y1 = 0;
-      for (let y = 0; y < cellH; y++) for (let x = 0; x < cellW; x++) {
-        if (pixels[(y * frame.width + x) * 4 + 3] > 100) {
-          x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x); y1 = Math.max(y1, y);
+  
+    // Runtime texture keying for RGB source sprites. Source artwork stays unchanged.
+    function keyedTexture(image, type) {
+      const texture = document.createElement('canvas');
+      texture.width = image.width; texture.height = image.height;
+      const c = texture.getContext('2d', { willReadFrequently: true });
+      c.drawImage(image, 0, 0);
+      const pixels = c.getImageData(0, 0, texture.width, texture.height);
+      for (let i = 0; i < pixels.data.length; i += 4) {
+        const r = pixels.data[i], g = pixels.data[i + 1], b = pixels.data[i + 2];
+        if (type === 'green') {
+          const green = g - Math.max(r, b);
+          if (green > 25 && g > 90) {
+            pixels.data[i + 3] *= 1 - clamp((green - 25) / 65);
+            pixels.data[i + 1] = Math.min(g, Math.max(r, b) + 12);
+          }
+        } else {
+          const min = Math.min(r, g, b), chroma = Math.max(r, g, b) - min;
+          const neutral = 1 - clamp((chroma - 8) / 16);
+          const light = clamp((min - 103) / 26);
+          pixels.data[i + 3] *= 1 - neutral * light;
         }
       }
-      if (x0 > x1) return { sx, sy, x: 0, y: 0, w: cellW, h: cellH, anchorX: cellW / 2 };
-      let sum = 0, count = 0;
-      for (let y = Math.floor(y1 - (y1 - y0) * .1); y <= y1; y++) for (let x = 0; x < cellW; x++) {
-        if (pixels[(y * frame.width + x) * 4 + 3] > 150) { sum += x; count++; }
-      }
-      return { sx, sy, x: Math.max(0, x0 - 2), y: Math.max(0, y0 - 2), w: Math.min(cellW - x0, x1 - x0 + 5), h: Math.min(cellH - y0, y1 - y0 + 5), anchorX: count ? sum / count : (x0 + x1) / 2 };
-    });
-  }
-
-  // Light each pose in the renderer using the gallery's cool ambient light,
-  // warm panel rim light, and the peach light reflected by the floor.
-  function prepareSprite(source, cell) {
-    const image = document.createElement('canvas');
-    image.width = Math.ceil(cell.w); image.height = Math.ceil(cell.h);
-    const c = image.getContext('2d', { willReadFrequently: true });
-    c.drawImage(source, cell.sx + cell.x, cell.sy + cell.y, cell.w, cell.h,
-      0, 0, image.width, image.height);
-    const frame = c.getImageData(0, 0, image.width, image.height);
-    const original = new Uint8ClampedArray(frame.data);
-    const w = image.width, h = image.height;
-    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
-      const i = (y * w + x) * 4, a = original[i + 3] / 255;
-      if (a < .055) { frame.data[i + 3] = 0; continue; }
-      const left = x > 1 ? original[i - 8 + 3] / 255 : 0;
-      const right = x < w - 2 ? original[i + 8 + 3] / 255 : 0;
-      const warmRim = clamp(a - left) * .6;
-      const coolRim = clamp(a - right) * .28;
-      const panelLight = (1 - x / w) * .11;
-      const bounce = smooth((y / h - .58) / .42) * .08;
-      frame.data[i] = original[i] * .83 + panelLight * 50 + bounce * 45 + warmRim * 105;
-      frame.data[i + 1] = original[i + 1] * .83 + panelLight * 25 + bounce * 20 + warmRim * 53 + coolRim * 12;
-      frame.data[i + 2] = original[i + 2] * .87 + panelLight * 4 + bounce * 7 + warmRim * 13 + coolRim * 35;
+      c.putImageData(pixels, 0, 0);
+      return texture;
     }
-    c.putImageData(frame, 0, 0);
-    const contacts = [];
-    let start = -1;
-    for (let x = 0; x <= w; x++) {
-      let coverage = 0;
-      if (x < w) for (let y = Math.floor(h * .975); y < h; y++) {
-        if (frame.data[(y * w + x) * 4 + 3] > 160) coverage++;
-      }
-      if (coverage >= 2 && start < 0) start = x;
-      if (coverage < 2 && start >= 0) {
-        if (x - start > 3) contacts.push({ x: (start + x) / 2, width: x - start });
-        start = -1;
-      }
+  
+    function actorBounds(image, columns = 4) {
+      const frame = document.createElement('canvas');
+      const cellW = image.width / columns;
+      const split = image.height * (columns === 4 ? .512 : .5);
+      frame.width = Math.ceil(cellW); frame.height = Math.ceil(Math.max(split, image.height - split));
+      const c = frame.getContext('2d', { willReadFrequently: true });
+      return Array.from({ length: columns * 2 }, (_, i) => {
+        const sx = (i % columns) * cellW, sy = i < columns ? 0 : split;
+        const cellH = i < columns ? split : image.height - split;
+        c.clearRect(0, 0, frame.width, frame.height);
+        c.drawImage(image, sx, sy, cellW, cellH, 0, 0, cellW, cellH);
+        const pixels = c.getImageData(0, 0, frame.width, frame.height).data;
+        let x0 = cellW, y0 = cellH, x1 = 0, y1 = 0;
+        for (let y = 0; y < cellH; y++) for (let x = 0; x < cellW; x++) {
+          if (pixels[(y * frame.width + x) * 4 + 3] > 100) {
+            x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x); y1 = Math.max(y1, y);
+          }
+        }
+        if (x0 > x1) return { sx, sy, x: 0, y: 0, w: cellW, h: cellH, anchorX: cellW / 2 };
+        let sum = 0, count = 0;
+        for (let y = Math.floor(y1 - (y1 - y0) * .1); y <= y1; y++) for (let x = 0; x < cellW; x++) {
+          if (pixels[(y * frame.width + x) * 4 + 3] > 150) { sum += x; count++; }
+        }
+        return { sx, sy, x: Math.max(0, x0 - 2), y: Math.max(0, y0 - 2), w: Math.min(cellW - x0, x1 - x0 + 5), h: Math.min(cellH - y0, y1 - y0 + 5), anchorX: count ? sum / count : (x0 + x1) / 2 };
+      });
     }
-    const reflection = document.createElement('canvas');
-    reflection.width = w; reflection.height = h;
-    const r = reflection.getContext('2d');
-    r.drawImage(image, 0, 0);
-    r.globalCompositeOperation = 'destination-in';
-    const fade = r.createLinearGradient(0, 0, 0, h);
-    fade.addColorStop(0, 'rgba(255,255,255,0)');
-    fade.addColorStop(.45, 'rgba(255,255,255,.03)');
-    fade.addColorStop(.78, 'rgba(255,255,255,.4)');
-    fade.addColorStop(1, 'rgba(255,255,255,1)');
-    r.fillStyle = fade;
-    r.fillRect(0, 0, w, h);
-    return { image, reflection, anchorX: cell.anchorX - cell.x, contacts };
-  }
-
-
-    async function loadAssets(base = 'assets/') {
+  
+    // Light each pose in the renderer using the gallery's cool ambient light,
+    // warm panel rim light, and the peach light reflected by the floor.
+    function prepareSprite(source, cell) {
+      const image = document.createElement('canvas');
+      image.width = Math.ceil(cell.w); image.height = Math.ceil(cell.h);
+      const c = image.getContext('2d', { willReadFrequently: true });
+      c.drawImage(source, cell.sx + cell.x, cell.sy + cell.y, cell.w, cell.h,
+        0, 0, image.width, image.height);
+      const frame = c.getImageData(0, 0, image.width, image.height);
+      const original = new Uint8ClampedArray(frame.data);
+      const w = image.width, h = image.height;
+      for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+        const i = (y * w + x) * 4, a = original[i + 3] / 255;
+        if (a < .055) { frame.data[i + 3] = 0; continue; }
+        const left = x > 1 ? original[i - 8 + 3] / 255 : 0;
+        const right = x < w - 2 ? original[i + 8 + 3] / 255 : 0;
+        const warmRim = clamp(a - left) * .6;
+        const coolRim = clamp(a - right) * .28;
+        const panelLight = (1 - x / w) * .11;
+        const bounce = smooth((y / h - .58) / .42) * .08;
+        frame.data[i] = original[i] * .83 + panelLight * 50 + bounce * 45 + warmRim * 105;
+        frame.data[i + 1] = original[i + 1] * .83 + panelLight * 25 + bounce * 20 + warmRim * 53 + coolRim * 12;
+        frame.data[i + 2] = original[i + 2] * .87 + panelLight * 4 + bounce * 7 + warmRim * 13 + coolRim * 35;
+      }
+      c.putImageData(frame, 0, 0);
+      const contacts = [];
+      let start = -1;
+      for (let x = 0; x <= w; x++) {
+        let coverage = 0;
+        if (x < w) for (let y = Math.floor(h * .975); y < h; y++) {
+          if (frame.data[(y * w + x) * 4 + 3] > 160) coverage++;
+        }
+        if (coverage >= 2 && start < 0) start = x;
+        if (coverage < 2 && start >= 0) {
+          if (x - start > 3) contacts.push({ x: (start + x) / 2, width: x - start });
+          start = -1;
+        }
+      }
+      const reflection = document.createElement('canvas');
+      reflection.width = w; reflection.height = h;
+      const r = reflection.getContext('2d');
+      r.drawImage(image, 0, 0);
+      r.globalCompositeOperation = 'destination-in';
+      const fade = r.createLinearGradient(0, 0, 0, h);
+      fade.addColorStop(0, 'rgba(255,255,255,0)');
+      fade.addColorStop(.45, 'rgba(255,255,255,.03)');
+      fade.addColorStop(.78, 'rgba(255,255,255,.4)');
+      fade.addColorStop(1, 'rgba(255,255,255,1)');
+      r.fillStyle = fade;
+      r.fillRect(0, 0, w, h);
+      return { image, reflection, anchorX: cell.anchorX - cell.x, contacts };
+    }
+  
+  
+  
+    async function loadAssets() {
       const [gallery, curtainSource, actorSource, walkSource] = await Promise.all([
-        load(base + 'intro-gallery.jpg'), load(base + 'intro-curtains.png'),
-        load(base + 'intro-kenny.png'), load(base + 'kenny-depth-walk.png')
+        load('assets/images/intro-gallery.webp'),
+        load('assets/images/intro-curtains.webp'),
+        load('assets/images/intro-kenny.webp'),
+        load('assets/images/kenny-depth-walk.webp')
       ]);
       const curtains = keyedTexture(curtainSource, 'neutral');
       const actor = keyedTexture(actorSource, 'neutral');
       const walk = keyedTexture(walkSource, 'green');
-      plates = { gallery, curtains, actor, walk, bounds: actorBounds(actor), walkBounds: actorBounds(walk, 3) };
-      sprites = [...plates.bounds.map(cell => prepareSprite(actor, cell)),
-        ...plates.walkBounds.map(cell => prepareSprite(walk, cell))];
+      plates = { gallery, curtains };
+      // Prepare only poses used by poseAt(), preserving their original indices.
+      const poses = new Set([0, 1, 2, 3, 6, 7, 8, 10, 11, 13]);
+      sprites = [
+        ...actorBounds(actor).map((cell, i) => poses.has(i) ? prepareSprite(actor, cell) : null),
+        ...actorBounds(walk, 3).map((cell, i) => poses.has(i + 8) ? prepareSprite(walk, cell) : null)
+      ];
     }
-    return { load: loadAssets, render: renderScene, sample };
+    return { load: loadAssets, render: renderScene };
   }
-  window.KennyScene = { create, duration: DURATION };
 })();
-
 </script>
-  <script data-source="scroll.js">
-/* No playback clock: scroll position is the sole input to the animation timeline. */
-(() => {
-  'use strict';
-  const track = document.getElementById('scroll-track');
-  const stage = document.querySelector('.scene-stage');
-  const canvas = document.getElementById('scroll-canvas');
-  const ctx = canvas.getContext('2d', { alpha: false });
-  const status = document.getElementById('scroll-status');
-  const message = document.getElementById('load-message');
-  const progressBar = document.getElementById('scene-progress');
-  const fill = document.getElementById('progress-fill');
-  const output = document.getElementById('progress-number');
-  const engine = window.KennyScene.create({ scrollDriven: true });
-  const clamp = n => Math.max(0, Math.min(1, n));
-  let ready = false, request = 0, lastProgress = -1;
-  let width = 1, height = 1, pixelRatio = 1, scrollSpan = 1, trackTop = 0;
-  let lastPercent = -1;
-
-  function progress() {
-    return clamp((window.scrollY - trackTop) / scrollSpan);
-  }
-
-  function render() {
-    request = 0;
-    if (!ready || document.hidden || !ctx) return;
-    const p = progress();
-    if (p === lastProgress) return;
-    lastProgress = p;
-    ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-    // The useful scene ends at 8.5; remove the previous video's trailing hold.
-    engine.render(ctx, width, height, p * 8.5);
-    fill.style.transform = `scaleX(${p})`;
-    const intro = Math.max(0, 1 - p / .08);
-    stage.style.setProperty('--intro-opacity', String(intro));
-    stage.style.setProperty('--intro-y', `${-p * 40}px`);
-    const percent = Math.round(p * 100);
-    if (percent !== lastPercent) {
-      lastPercent = percent;
-      output.textContent = `${percent}%`;
-      progressBar.setAttribute('aria-valuenow', String(percent));
-      status.textContent = p >= .999 ? '已抵達展館 · 向上捲動可倒回' : '停止捲動，畫面即停留';
-    }
-  }
-
-  function invalidate() {
-    if (!request && ready && !document.hidden) request = requestAnimationFrame(render);
-  }
-
-  function measure() {
-    const r = stage.getBoundingClientRect();
-    width = Math.max(1, r.width);
-    height = Math.max(1, r.height);
-    pixelRatio = Math.min(window.devicePixelRatio || 1, width <= 760 ? 2 : 1.5);
-    canvas.width = Math.round(width * pixelRatio);
-    canvas.height = Math.round(height * pixelRatio);
-    trackTop = track.getBoundingClientRect().top + window.scrollY;
-    scrollSpan = Math.max(1, track.offsetHeight - stage.offsetHeight);
-    lastProgress = -1;
-    invalidate();
-  }
-
-  window.addEventListener('scroll', invalidate, { passive: true });
-  window.addEventListener('resize', measure, { passive: true });
-  window.addEventListener('pageshow', measure);
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) { cancelAnimationFrame(request); request = 0; }
-    else invalidate();
-  });
-  document.getElementById('reset-scene').addEventListener('click', () => {
-    window.scrollTo({ top: trackTop, behavior: 'instant' });
-    invalidate();
-  });
-  if (matchMedia('(pointer:coarse)').matches) {
-    document.getElementById('scroll-hint').textContent = '上下滑動，控制動畫';
-  }
-  if (!ctx) {
-    status.textContent = '此瀏覽器無法顯示動畫';
-    message.textContent = '此瀏覽器無法顯示動畫，請使用支援 Canvas 的瀏覽器。';
-    return;
-  }
-  if (window.history) {
-    window.history.scrollRestoration = 'manual';
-    window.scrollTo({ top: 0, behavior: 'instant' });
-  }
-  measure();
-  engine.load('../assets/').then(() => {
-    ready = true;
-    document.body.classList.add('scene-ready');
-    message.textContent = '動畫已準備完成。捲動可前進或倒回，停止捲動時畫面停留。';
-    measure();
-  }).catch(error => {
-    console.error(error);
-    status.textContent = '畫面載入失敗，請重新整理';
-    message.textContent = '動畫素材暫時無法載入，請重新整理頁面。';
-  });
-})();
-
-</script>
-</body>
+  </body>
 </html>
